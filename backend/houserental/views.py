@@ -9,7 +9,7 @@ from django.conf import settings
 
 from houserental.couchdb_connector import connect_to_db
 
-from houserental.lda import preprocess_text, LDA_100, draw_word_cloud
+# from houserental.lda import preprocess_text, LDA_100, draw_word_cloud
 
 from houserental.sentiment import get_sentiment_polarity
 from houserental.models import count_dict
@@ -112,21 +112,21 @@ def num_tweet_per_month(request):
     return response
 
 
-@csrf_exempt
-@api_view(['GET'])
-def mastodon_lda(request):
-    db = connect_to_db('mastodon_au_rents')
-    result = db.view('_design/mastodon_rent/_view/recent100/', descending=True, limit=100, index='created_at')
-    result_list = []
-    for row in result:
-        if row.key is not None:
-            result_list.append(row.value)
-    print(result_list)
-    preprocessed_documents = [preprocess_text(doc) for doc in result_list]
-    lda_topics = LDA_100(preprocessed_documents)
-    response = JsonResponse({'content': lda_topics})
-    response["Access-Control-Allow-Origin"] = 'http://172.26.134.0:3000'
-    return response
+# @csrf_exempt
+# @api_view(['GET'])
+# def mastodon_lda(request):
+#     db = connect_to_db('mastodon_au_rents')
+#     result = db.view('_design/mastodon_rent/_view/recent100/', descending=True, limit=100, index='created_at')
+#     result_list = []
+#     for row in result:
+#         if row.key is not None:
+#             result_list.append(row.value)
+#     print(result_list)
+#     preprocessed_documents = [preprocess_text(doc) for doc in result_list]
+#     lda_topics = LDA_100(preprocessed_documents)
+#     response = JsonResponse({'content': lda_topics})
+#     response["Access-Control-Allow-Origin"] = 'http://172.26.134.0:3000'
+#     return response
 
 
 @csrf_exempt
@@ -213,23 +213,23 @@ def twitter_sentiment(request, name):
     return response
 
 
-@csrf_exempt
-@api_view(['GET'])
-def twitter_word_cloud(request, name):
-    db = connect_to_db('twitter')
-    result = db.view('_design/sentiment_lda/_view/by_rent/', key=name, index='text')
-    result_list = []
-    for row in result:
-        if row.value is not None:
-            print(row.value)
-            result_list.append(row.value)
-    preprocessed_documents = [preprocess_text(doc) for doc in result_list]
-    lda_topics = LDA_100(preprocessed_documents)
-    image_data_generator = draw_word_cloud(lda_topics)
-    image_data = next(image_data_generator)
-    response = HttpResponse(content_type='image/png')
-    response.write(image_data)
-    return response
+# @csrf_exempt
+# @api_view(['GET'])
+# def twitter_word_cloud(request, name):
+#     db = connect_to_db('twitter')
+#     result = db.view('_design/sentiment_lda/_view/by_rent/', key=name, index='text')
+#     result_list = []
+#     for row in result:
+#         if row.value is not None:
+#             print(row.value)
+#             result_list.append(row.value)
+#     preprocessed_documents = [preprocess_text(doc) for doc in result_list]
+#     lda_topics = LDA_100(preprocessed_documents)
+#     image_data_generator = draw_word_cloud(lda_topics)
+#     image_data = next(image_data_generator)
+#     response = HttpResponse(content_type='image/png')
+#     response.write(image_data)
+#     return response
 
 
 @csrf_exempt

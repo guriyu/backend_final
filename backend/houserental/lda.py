@@ -4,19 +4,19 @@ from gensim import corpora
 from gensim.models import LdaModel
 import nltk
 from matplotlib import pyplot as plt
-from nltk.corpus import stopwords
+# from nltk.corpus import stopwords
 from wordcloud import WordCloud
 
-nltk.download('punkt')
+# nltk.download('punkt')
 from nltk import word_tokenize
 
-stopwords = set(stopwords.words('english'))
+# stopwords = set(stopwords.words('english'))
 
 
-def preprocess_text(text):
-    tokens = word_tokenize(text.lower())
-    tokens = [token for token in tokens if token.isalpha() and token not in stopwords]
-    return tokens
+# def preprocess_text(text):
+#     tokens = word_tokenize(text.lower())
+#     tokens = [token for token in tokens if token.isalpha() and token not in stopwords]
+#     return tokens
 
 
 def LDA_100(preprocessed_documents):
