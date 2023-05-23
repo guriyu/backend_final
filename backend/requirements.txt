@@ -10,4 +10,3 @@ gensim==4.3.1
 matplotlib
 # nltk==3.8.1
 wordcloud==1.9.2
-django-cors-headers==3.8.0
